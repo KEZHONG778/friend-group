@@ -37,6 +37,32 @@ my_group ={
 }
 
 
+def forget(person1, person2):
+    for person in [person1, person2]:
+        if person in my_group:
+            for relation_type in list(my_group[person]['relations'].keys()):
+                if person2 in my_group[person]['relations'].get(relation_type, []):
+                    my_group[person]['relations'][relation_type].remove(person2)
+
+def add_person(name, age, job=None, relations=None):
+    my_group[name] = {
+        "age": age,
+        "job": job,
+        "relations": relations or {}
+    }
+
+def average_age():
+    ages = [info['age'] for info in my_group.values()]
+    return sum(ages) / len(ages) if ages else 0
+
+
+
+print(f"average age: {average_age()}")
+
+add_person("Tom", 30, "engineer")
+
+forget("Jill", "Zalika")
+
 if __name__ == "__main__":
     for name, info in my_group.items():
         print(f"{name} ({info['age']}age, {info['job']}) relationship：")
